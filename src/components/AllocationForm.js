@@ -1,12 +1,40 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
+
+const currencies = [
+    {
+        sign:'$',
+        name: 'Dollar'
+    },
+    {
+        sign:'£',
+        name: 'Pound'
+    },
+    {
+        sign:'€',
+        name: 'Euro'
+    },
+    {
+        sign:'₹',
+        name: 'Rupee'
+    }
+]
+
+
 const AllocationForm = (props) => {
     const { dispatch,remaining  } = useContext(AppContext);
 
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');
     const [action, setAction] = useState('');
+
+    const handleCurrencyChange = (currency) => {
+        dispatch({
+            type:'CHG_CURRENCY',
+            payload: currency
+        })
+    }
 
     const submitEvent = () => {
 
@@ -35,6 +63,13 @@ const AllocationForm = (props) => {
 
     return (
         <div>
+                        <span>Currency (
+<select>
+{currencies.map((currency,index) =>(
+        <option key={index} onClick={handleCurrencyChange(currency.sign)}>{currency.sign} {currency.name}</option>
+    ))}
+</select> )
+</span>
             <div className='row'>
 
             <div className="input-group mb-3" style={{ marginLeft: '2rem' }}>
